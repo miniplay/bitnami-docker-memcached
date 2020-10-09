@@ -27,6 +27,10 @@ memcached_env_vars=(
     MEMCACHED_CACHE_SIZE
     MEMCACHED_MAX_CONNECTIONS
     MEMCACHED_THREADS
+    MONITORING_PREFIX
+    MONITORING_GRAPHITE_HOST
+    MONITORING_GRAPHITE_PORT
+    MONITORING_SLEEP
 )
 for env_var in "${memcached_env_vars[@]}"; do
     file_env_var="${env_var}_FILE"
