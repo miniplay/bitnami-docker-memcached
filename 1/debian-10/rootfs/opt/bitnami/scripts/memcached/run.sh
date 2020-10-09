@@ -29,9 +29,14 @@ read -r -a extra_flags <<< "$MEMCACHED_EXTRA_FLAGS"
 [[ "${#extra_flags[@]}" -gt 0 ]] && args+=("${extra_flags[@]}")
 args+=("$@")
 
+info "** Starting Stats collection **"
+#start statsd
+/opt/bitnami/scripts/stats.sh &
+
 info "** Starting Memcached **"
 if am_i_root; then
     exec gosu "$MEMCACHED_DAEMON_USER" memcached "${args[@]}"
 else
     exec memcached "${args[@]}"
 fi
+
