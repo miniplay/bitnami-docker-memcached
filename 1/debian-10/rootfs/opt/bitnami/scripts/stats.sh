@@ -14,10 +14,10 @@ do
         STATS=$($DIRNAME/telnet.sh | telnet | grep "STAT ")
         while read -r STAT; do
             STAT_ID=$(echo $STAT | cut -d ' ' -f2)
-            STAT_VALUE=$(echo $STAT | cut -d ' ' -f3)
-            CMD="echo $MONITORING_PREFIX.$STAT_ID:$STAT_VALUE|c | ncat -w 50ms -u $MONITORING_GRAPHITE_HOST 8125"
+            STAT_VALUE=$(echo $STAT | cut -d ' ' -f3 | cut -d '.' -f1)
+            CMD="echo $MONITORING_PREFIX.$STAT_ID:$STAT_VALUE|g | ncat -w 50ms -u $MONITORING_GRAPHITE_HOST 8125"
             echo "$STAT_ID      $STAT_VALUE     $CMD"
-            echo "$MONITORING_PREFIX.$STAT_ID:$STAT_VALUE|c" | nc -w 50ms -u $MONITORING_GRAPHITE_HOST 8125
+            echo "$MONITORING_PREFIX.$STAT_ID:$STAT_VALUE|g" | nc -w 50ms -u $MONITORING_GRAPHITE_HOST 8125
         done <<< $STATS
         echo
         echo
